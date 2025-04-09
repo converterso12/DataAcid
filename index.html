@@ -13,10 +13,15 @@
         <h3 class="text-center mb-4">Form Input Penjualan</h3>
 
         <form id="salesForm" class="row g-3">
-          <div class="col-md-6">
-            <label class="form-label">Perusahaan</label>
-            <input type="text" class="form-control" id="company" required>
-          </div>
+        <div class="col-md-6">
+  <label class="form-label">Perusahaan</label>
+  <select class="form-control" id="company" required>
+    <option value="" disabled selected>Pilih Perusahaan</option>
+    <option value="DJM">DJM</option>
+    <option value="CTLI">CTLI</option>
+    <option value="RISUN">RISUN</option>
+  </select>
+</div>
 
           <div class="col-md-6">
             <label class="form-label">No. Truck</label>
