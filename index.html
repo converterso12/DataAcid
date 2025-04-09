@@ -96,7 +96,7 @@
         await push(ref(db, 'penjualan/'), data);
         alert("Data berhasil disimpan!");
         form.reset();
-        window.location.href = "data-penjualan.html"; // Arahkan ke halaman data
+      
       } catch (err) {
         alert("Gagal menyimpan data: " + err);
       }
