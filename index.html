@@ -179,6 +179,28 @@ button:hover {
   td input {
     font-size: 13px;
   }
+  td select {
+     width: 100%;
+     padding: 6px;
+     border: 1px solid #e2e8f0;
+     border-radius: 6px;
+     font-size: 14px;
+     background-color: #f8fafc;
+   }
+   .perusahaan-select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f8fafc;
+}
+
+td select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  background-color: #fff;
+}
 }
  </style>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -204,6 +226,12 @@ button:hover {
     const table = document.getElementById('salesTableBody');
     const addBtn = document.getElementById('addRowBtn');
     let currentDate = new Date();
+    
+    const daftarPerusahaan = [
+      "DJM",
+      "CTLI",
+      "RISUN"
+    ];
 
     // Function to format date as DD-MM-YYYY
     function formatDate(date) {
@@ -261,11 +289,18 @@ button:hover {
     function addRow(data = null, key = null) {
       const tr = document.createElement('tr');
       const isNew = !data;
+      
+        // Buat options untuk dropdown perusahaan
+      let perusahaanOptions = '';
+      daftarPerusahaan.forEach(perusahaan => {
+        const selected = data?.perusahaan === perusahaan ? 'selected' : '';
+        perusahaanOptions += `<option value="${perusahaan}" ${selected}>${perusahaan}</option>`;
+      });
 
       tr.innerHTML = `
         <td></td>
         <td>${isNew ? `<input type="date" value="${data?.tanggal || getFormattedDate(currentDate)}">` : `<div>${data?.tanggal || ''}</div><input type="date" value="${data?.tanggal || ''}" style="display:none">`}</td>
-        <td>${isNew ? `<input type="text" value="${data?.perusahaan || ''}">` : `<div>${data?.perusahaan || ''}</div><input type="text" value="${data?.perusahaan || ''}" style="display:none">`}</td>
+        <td>${isNew ? `<select>${perusahaanOptions}</select>` : `<div>${data?.perusahaan || ''}</div><select style="display:none">${perusahaanOptions}</select>`}</td>
         <td>${isNew ? `<input type="text" value="${data?.noTruck || ''}">` : `<div>${data?.noTruck || ''}</div><input type="text" value="${data?.noTruck || ''}" style="display:none">`}</td>
         <td>${isNew ? `<input type="time" value="${data?.loadingTime || ''}">` : `<div>${data?.loadingTime || ''}</div><input type="time" value="${data?.loadingTime || ''}" style="display:none">`}</td>
         <td>${isNew ? `<input type="time" value="${data?.releaseTime || ''}">` : `<div>${data?.releaseTime || ''}</div><input type="time" value="${data?.releaseTime || ''}" style="display:none">`}</td>
@@ -357,8 +392,19 @@ button:hover {
 
     window.editRow = function(btn) {
       const row = btn.closest('tr');
+      
+      // Sembunyikan semua div
       [...row.querySelectorAll('div')].forEach(div => div.style.display = 'none');
-      [...row.querySelectorAll('input')].forEach(input => input.style.display = 'block');
+      
+      // Tampilkan semua input dan select
+      [...row.querySelectorAll('input, select')].forEach(input => {
+        input.style.display = 'block';
+        if(input.classList.contains('perusahaan-select')) {
+          input.style.width = '100%'; // Pastikan select memenuhi sel
+        }
+      });
+      
+      // Toggle tombol edit/update
       row.querySelector('button[onclick^="updateRow"]').style.display = 'inline';
       btn.style.display = 'none';
     }
@@ -366,16 +412,29 @@ button:hover {
     window.updateRow = function(btn, key) {
       const row = btn.closest('tr');
       const data = getRowData(row);
+      
       update(ref(db, `penjualanAsam/${key}`), data)
         .then(() => Swal.fire('Berhasil', 'Data berhasil diperbarui!', 'success'))
         .catch(err => Swal.fire('Gagal', 'Gagal memperbarui: ' + err, 'error'));
 
-      [...row.querySelectorAll('div')].forEach((div, i) => {
-        const input = row.querySelectorAll('input')[i];
-        div.textContent = input.value;
-        div.style.display = 'block';
-        input.style.display = 'none';
-      });
+      // Update tampilan div dengan nilai baru
+      const inputs = row.querySelectorAll('input, select');
+      const divs = row.querySelectorAll('div');
+      
+      // Tanggal (index 0)
+      divs[0].textContent = inputs[0].value;
+      
+      // Perusahaan (index 1)
+      divs[1].textContent = inputs[1].value;
+      
+      // No Truck (index 2)
+      divs[2].textContent = inputs[2].value;
+      
+      // Tampilkan kembali div dan sembunyikan input
+      [...divs].forEach(div => div.style.display = 'block');
+      [...inputs].forEach(input => input.style.display = 'none');
+      
+      // Toggle tombol
       btn.style.display = 'none';
       row.querySelector('button[onclick^="editRow"]').style.display = 'inline';
       updateTotalRow();
@@ -409,10 +468,10 @@ button:hover {
     }
 
     function getRowData(row) {
-      const inputs = row.querySelectorAll('input');
+      const inputs = row.querySelectorAll('input, select'); // Tambahkan select ke query selector
       return {
         tanggal: inputs[0].value,
-        perusahaan: inputs[1].value,
+        perusahaan: inputs[1].value, // Ini sekarang akan mengambil nilai dari select
         noTruck: inputs[2].value,
         loadingTime: inputs[3].value,
         releaseTime: inputs[4].value,
