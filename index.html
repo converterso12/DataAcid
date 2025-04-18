@@ -4,33 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Penjualan Asam</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #dbeafe, #ecfeff);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+ <style>
+ 	body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #dbeafe, #ecfeff);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    h2 {
-      color: #1e3a8a;
-      margin-bottom: 10px;
-      font-size: 28px;
-      font-weight: 600;
-    }
+h2 {
+  color: #1e3a8a;
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 600;
+}
 
-    .date-header {
-      color: #1e3a8a;
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: 500;
-    }
+.date-header {
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
 
-    #exportBtn {
+#exportBtn {
       background-color: #10b981;
       margin-top: 10px;
       padding: 10px 18px;
@@ -54,178 +54,155 @@
       margin-top: 10px;
     }
 
-    .table-container {
-      width: 100%;
-      max-width: 1200px;
-      overflow-x: auto;
-      margin-bottom: 20px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    }
+.table-container {
+  width: 100%;
+  max-width: 1200px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-    th, td {
-      border: 1px solid #f1f5f9;
-      padding: 12px;
-      text-align: center;
-      font-size: 14px;
-      color: #334155;
-    }
+th, td {
+  border: 1px solid #f1f5f9;
+  padding: 12px;
+  text-align: center;
+  font-size: 14px;
+  color: #334155;
+}
 
-    th {
-      background-color: #3b82f6;
-      color: white;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
+th {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
 
-    td input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 6px;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      font-size: 14px;
-      color: #1e293b;
-      background-color: #f8fafc;
-      transition: border-color 0.2s;
-    }
+td input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #1e293b;
+  background-color: #f8fafc;
+  transition: border-color 0.2s;
+}
 
-    td input:focus {
-      border-color: #3b82f6;
-      outline: none;
-      background-color: #fff;
-    }
+td input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  background-color: #fff;
+}
 
-    button {
-      margin: 2px;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 6px;
-      background-color: #3b82f6;
-      color: white;
-      cursor: pointer;
-      font-size: 13px;
-      transition: background-color 0.2s, transform 0.1s;
-    }
+button {
+  margin: 2px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s, transform 0.1s;
+}
 
-    button:hover {
-      background-color: #2563eb;
-      transform: translateY(-1px);
-    }
+button:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
 
-    #addRowBtn {
-      background-color: #10b981;
-      margin-bottom: 18px;
-      padding: 10px 18px;
-      font-size: 15px;
-      font-weight: 500;
-    }
+#addRowBtn {
+  background-color: #10b981;
+  margin-bottom: 18px;
+  padding: 10px 18px;
+  font-size: 15px;
+  font-weight: 500;
+}
 
-    #addRowBtn:hover {
-      background-color: #059669;
-    }
+#addRowBtn:hover {
+  background-color: #059669;
+}
 
-    .net-weight {
-      font-weight: bold;
-      color: #111827;
-    }
+.net-weight {
+  font-weight: bold;
+  color: #111827;
+}
 
-    .total-row {
-      background-color:#F3F3F3;
-      font-weight: bold;
-      position: sticky;
-      left: 0;
-    }
+.total-row {
+  background-color:#F3F3F3;
+  font-weight: bold;
+  position: sticky;
+  left: 0;
+}
 
-    .total-row td {
-      color: #000000;
-    }
+.total-row td {
+  color: #000000;
+}
 
-    .date-navigation {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
+.date-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
 
-    .date-navigation button {
-      padding: 8px 12px;
-      font-size: 14px;
-    }
+.date-navigation button {
+  padding: 8px 12px;
+  font-size: 14px;
+}
 
-    .date-display {
-      font-weight: bold;
-      color: #1e3a8a;
-      min-width: 120px;
-      text-align: center;
-    }
+.date-display {
+  font-weight: bold;
+  color: #1e3a8a;
+  min-width: 120px;
+  text-align: center;
+}
 
-    /* Style untuk baris yang sedang diinput/edit */
-    tr.active-input {
-      background-color: #fffacd !important;
-    }
+@media(max-width: 768px) {
+  table, th, td {
+    font-size: 13px;
+    padding: 8px;
+  }
+  button {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+  td input {
+    font-size: 13px;
+  }
+  td select {
+     width: 100%;
+     padding: 6px;
+     border: 1px solid #e2e8f0;
+     border-radius: 6px;
+     font-size: 14px;
+     background-color: #f8fafc;
+   }
+   .perusahaan-select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f8fafc;
+}
 
-    /* Style untuk notifikasi update */
-    .update-notification {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 15px;
-      background-color: #3b82f6;
-      color: white;
-      border-radius: 5px;
-      z-index: 1000;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: all 0.3s ease;
-    }
-
-    .update-notification:hover {
-      background-color: #2563eb;
-    }
-
-    @media(max-width: 768px) {
-      table, th, td {
-        font-size: 13px;
-        padding: 8px;
-      }
-      button {
-        padding: 5px 10px;
-        font-size: 11px;
-      }
-      td input {
-        font-size: 13px;
-      }
-      td select {
-        width: 100%;
-        padding: 6px;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        font-size: 14px;
-        background-color: #f8fafc;
-      }
-      .perusahaan-select {
-        width: 100%;
-        padding: 6px;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        font-size: 14px;
-        background-color: #f8fafc;
-      }
-      td select:focus {
-        border-color: #3b82f6;
-        outline: none;
-        background-color: #fff;
-      }
-    }
-  </style>
+td select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  background-color: #fff;
+}
+}
+ </style>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
   <script type="module">
@@ -249,7 +226,8 @@
     const table = document.getElementById('salesTableBody');
     const addBtn = document.getElementById('addRowBtn');
     let currentDate = new Date();
-    let pendingUpdates = false;
+    let localDrafts = {}; // Untuk menyimpan draft lokal
+    let initialLoad = true; // Flag untuk initial load
     
     const daftarPerusahaan = [
       "DJM",
@@ -312,9 +290,13 @@
 
     function addRow(data = null, key = null) {
       const tr = document.createElement('tr');
-      if (key) tr.dataset.key = key;
       const isNew = !data;
+      const draftId = 'draft-' + Date.now();
       
+      if (isNew) {
+        localDrafts[draftId] = { status: 'editing', element: tr };
+      }
+
       // Buat options untuk dropdown perusahaan
       let perusahaanOptions = '';
       daftarPerusahaan.forEach(perusahaan => {
@@ -340,20 +322,9 @@
              <button onclick="confirmDeleteRow('${key}')">Hapus</button>`}
         </td>`;
 
-      // Tambahkan event listener untuk input/select
-      const inputs = tr.querySelectorAll('input, select');
-      inputs.forEach(input => {
-        input.addEventListener('focus', () => {
-          tr.classList.add('active-input');
-        });
-        input.addEventListener('blur', () => {
-          tr.classList.remove('active-input');
-        });
-      });
-
+      tr.setAttribute('data-draft-id', draftId);
       table.appendChild(tr);
       numberRows();
-      return tr;
     }
 
     function numberRows() {
@@ -379,13 +350,11 @@
     }
 
     function updateTotalRow() {
-      // Remove existing total row if it exists
       const existingTotalRow = table.querySelector('.total-row');
       if (existingTotalRow) {
         existingTotalRow.remove();
       }
       
-      // Create new total row
       const totalRow = document.createElement('tr');
       totalRow.className = 'total-row';
       const totalNetWeight = calculateTotalNetWeight();
@@ -412,28 +381,41 @@
 
     window.submitRow = function(btn) {
       const row = btn.closest('tr');
+      const draftId = row.getAttribute('data-draft-id');
+      
+      if (draftId && localDrafts[draftId]) {
+        delete localDrafts[draftId];
+      }
+      
       const data = getRowData(row);
       push(salesRef, data).then(() => {
         Swal.fire('Berhasil', 'Data berhasil disimpan!', 'success');
       }).catch(err => {
         Swal.fire('Gagal', 'Gagal menyimpan data: ' + err, 'error');
+        if (draftId) {
+          localDrafts[draftId] = { status: 'editing', element: row };
+        }
       });
       row.remove();
       updateTotalRow();
     }
 
     window.cancelRow = function(btn) {
-      btn.closest('tr').remove();
+      const row = btn.closest('tr');
+      const draftId = row.getAttribute('data-draft-id');
+      
+      if (draftId && localDrafts[draftId]) {
+        delete localDrafts[draftId];
+      }
+      
+      row.remove();
       updateTotalRow();
     }
 
     window.editRow = function(btn) {
       const row = btn.closest('tr');
       
-      // Sembunyikan semua div
       [...row.querySelectorAll('div')].forEach(div => div.style.display = 'none');
-      
-      // Tampilkan semua input dan select
       [...row.querySelectorAll('input, select')].forEach(input => {
         input.style.display = 'block';
         if(input.classList.contains('perusahaan-select')) {
@@ -441,7 +423,6 @@
         }
       });
       
-      // Toggle tombol edit/update
       row.querySelector('button[onclick^="updateRow"]').style.display = 'inline';
       btn.style.display = 'none';
     }
@@ -454,36 +435,16 @@
         .then(() => Swal.fire('Berhasil', 'Data berhasil diperbarui!', 'success'))
         .catch(err => Swal.fire('Gagal', 'Gagal memperbarui: ' + err, 'error'));
 
-      // Update tampilan div dengan nilai baru
       const inputs = row.querySelectorAll('input, select');
       const divs = row.querySelectorAll('div');
       
-      // Tanggal (index 0)
       divs[0].textContent = inputs[0].value;
-      
-      // Perusahaan (index 1)
       divs[1].textContent = inputs[1].value;
-      
-      // No Truck (index 2)
       divs[2].textContent = inputs[2].value;
       
-      // Loading Time (index 3)
-      divs[3].textContent = inputs[3].value;
-      
-      // Release Time (index 4)
-      divs[4].textContent = inputs[4].value;
-      
-      // Tare Weight (index 5)
-      divs[5].textContent = inputs[5].value;
-      
-      // Gross Weight (index 6)
-      divs[6].textContent = inputs[6].value;
-      
-      // Tampilkan kembali div dan sembunyikan input
       [...divs].forEach(div => div.style.display = 'block');
       [...inputs].forEach(input => input.style.display = 'none');
       
-      // Toggle tombol
       btn.style.display = 'none';
       row.querySelector('button[onclick^="editRow"]').style.display = 'inline';
       updateTotalRow();
@@ -492,19 +453,19 @@
     window.confirmDeleteRow = function(key) {
       Swal.fire({
         title: 'Konfirmasi Hapus',
-        text: 'Masukkan kode "hapus" untuk menghapus data ini:',
+        text: 'Masukkan kode "Y" untuk menghapus data ini:',
         input: 'text',
         inputPlaceholder: 'Masukkan kode di sini',
         showCancelButton: true,
         confirmButtonText: 'Hapus',
         preConfirm: (inputValue) => {
-          if (inputValue !== 'hapus') {
+          if (inputValue !== 'Y') {
             Swal.showValidationMessage('Kode konfirmasi salah!');
           }
           return inputValue;
         }
       }).then(result => {
-        if (result.isConfirmed && result.value === 'hapus') {
+        if (result.isConfirmed && result.value === 'Y') {
           deleteRow(key);
         }
       });
@@ -538,7 +499,6 @@
       const endDate = document.getElementById('filterEnd').value;
 
       const filtered = allData.filter(({ val }) => {
-        // Apply filters
         const matchPerusahaan = !perusahaan || val.perusahaan.toLowerCase().includes(perusahaan);
 
         const tanggal = val.tanggal || '';
@@ -609,7 +569,6 @@
           data.push(rowData);
         });
         
-        // Add total row to Excel data
         const totalNetWeight = calculateTotalNetWeight();
         const totalRow = [
           '', '', '', '', '', '', 
@@ -621,7 +580,6 @@
         
         const ws = XLSX.utils.aoa_to_sheet(data);
         
-        // Style the total row (make it bold)
         if (data.length > 1) {
           const totalRowIndex = data.length - 1;
           for (let i = 0; i < headers.length; i++) {
@@ -644,55 +602,25 @@
       }
     };
 
-    function showUpdateNotification() {
-      // Hapus notifikasi sebelumnya jika ada
-      const existingNotification = document.querySelector('.update-notification');
-      if (existingNotification) {
-        existingNotification.remove();
-      }
-      
-      // Buat notifikasi baru
-      const notification = document.createElement('div');
-      notification.className = 'update-notification';
-      notification.innerHTML = 'Data telah diperbarui. Klik untuk memuat ulang.';
-      notification.onclick = () => {
-        applyFilter();
-        notification.remove();
-      };
-      
-      document.body.appendChild(notification);
-      
-      // Hapus notifikasi setelah 5 detik
-      setTimeout(() => {
-        notification.remove();
-      }, 5000);
-    }
-
     function renderTable(dataArray) {
-      // Simpan baris yang sedang dalam mode edit/input
-      const editingRows = [];
-      const tableRows = table.querySelectorAll('tr');
-      
-      tableRows.forEach(row => {
-        // Cek jika baris ini sedang dalam mode edit/input
-        const isEditing = row.querySelector('input:not([style*="display: none"])') || 
-                         row.querySelector('select:not([style*="display: none"])');
-        if (isEditing) {
-          editingRows.push(row);
+      // Simpan draft yang sedang diedit
+      const currentDrafts = [];
+      table.querySelectorAll('tr').forEach(row => {
+        const draftId = row.getAttribute('data-draft-id');
+        if (draftId && localDrafts[draftId]) {
+          currentDrafts.push(localDrafts[draftId]);
         }
       });
       
-      // Kosongkan tabel kecuali baris yang sedang edit
+      // Bersihkan tabel
       table.innerHTML = '';
-      editingRows.forEach(row => table.appendChild(row));
       
-      // Tambahkan data dari Firebase
-      dataArray.forEach(entry => {
-        // Cek apakah data ini sudah ada di tabel (sedang diedit)
-        const isAlreadyEditing = editingRows.some(row => row.dataset.key === entry.key);
-        if (!isAlreadyEditing) {
-          addRow(entry.val, entry.key);
-        }
+      // Render data dari Firebase
+      dataArray.forEach(entry => addRow(entry.val, entry.key));
+      
+      // Kembalikan draft yang sedang diedit
+      currentDrafts.forEach(draft => {
+        table.appendChild(draft.element);
       });
       
       updateTotalRow();
@@ -702,6 +630,17 @@
     document.addEventListener('DOMContentLoaded', function() {
       updateDateHeader();
       updateDateFilter();
+      
+      // Event listener untuk sebelum unload
+      window.addEventListener('beforeunload', (e) => {
+        const hasActiveDrafts = Object.values(localDrafts).some(draft => draft.status === 'editing');
+        
+        if (hasActiveDrafts) {
+          e.preventDefault();
+          e.returnValue = 'Anda memiliki input yang belum disimpan. Yakin ingin meninggalkan halaman?';
+          return e.returnValue;
+        }
+      });
     });
     
     onValue(salesRef, snapshot => {
@@ -711,17 +650,16 @@
         allData.push({ val: child.val(), key: child.key });
       });
       
-      // Cek apakah ada input yang sedang aktif
-      const activeInputs = document.querySelectorAll('.active-input');
+      if (initialLoad) {
+        initialLoad = false;
+        applyFilter(); // Render pertama kali
+        return;
+      }
       
-      if (activeInputs.length > 0) {
-        // Jika ada input aktif, set flag pendingUpdates dan tampilkan notifikasi
-        pendingUpdates = true;
-        showUpdateNotification();
-      } else {
-        // Jika tidak ada input aktif, langsung apply filter
+      // Hanya render ulang jika tidak ada draft yang sedang diedit
+      const hasActiveDrafts = Object.values(localDrafts).some(draft => draft.status === 'editing');
+      if (!hasActiveDrafts) {
         applyFilter();
-        pendingUpdates = false;
       }
     });
   </script>
@@ -729,6 +667,7 @@
 <body>
   <h2>Data Penjualan Asam</h2>
   <div id="dateHeader" class="date-header"></div>
+  
   
   <div style="max-width: 1200px; width: 100%; margin-bottom: 20px;">
     <fieldset style="background-color: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
@@ -752,19 +691,18 @@
         </select>
         <input type="datetime-local" id="filterStart" style="flex: 1; padding: 8px;">
         <input type="datetime-local" id="filterEnd" style="flex: 1; padding: 8px;">
-        <button onclick="goToToday()" style="margin-left: 10px;">Hari Ini</button>
+        	<button onclick="goToToday()" style="margin-left: 10px;">Hari Ini</button>
         <button onclick="applyFilter()">Filter</button>
         <button onclick="resetFilter()" style="background-color: #ef4444;">Reset</button>
       </div>
     </fieldset>
   </div>
-  
-  <div class="date-navigation">
+    <div class="date-navigation">
     <button onclick="prevDay()">← Sebelumnya</button>
     <div class="date-display" id="currentDateDisplay"></div>
     <button onclick="nextDay()">Berikutnya →</button>
+    
   </div>
-  
   <div class="table-container">
     <table>
       <thead>
