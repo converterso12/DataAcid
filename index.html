@@ -120,7 +120,7 @@ button:hover {
   transform: translateY(-1px);
 }
 
-#addRowBtn {
+#addRowBtnTrain1, #addRowBtnTrain2, #addRowBtnQMB {
   background-color: #10b981;
   margin-bottom: 18px;
   padding: 10px 18px;
@@ -128,7 +128,7 @@ button:hover {
   font-weight: 500;
 }
 
-#addRowBtn:hover {
+#addRowBtnTrain1:hover, #addRowBtnTrain2:hover, #addRowBtnQMB:hover {
   background-color: #059669;
 }
 
@@ -165,6 +165,43 @@ button:hover {
   color: #1e3a8a;
   min-width: 120px;
   text-align: center;
+}
+
+.train-tabs {
+  display: flex;
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.train-tab {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  background-color: #e2e8f0;
+  cursor: pointer;
+  border-radius: 8px 8px 0 0;
+  margin-right: 5px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.train-tab:last-child {
+  margin-right: 0;
+}
+
+.train-tab.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.train-container {
+  width: 100%;
+  display: none;
+}
+
+.train-container.active {
+  display: block;
 }
 
 @media(max-width: 768px) {
@@ -223,11 +260,16 @@ td select:focus {
     const db = getDatabase(app);
     const salesRef = ref(db, 'penjualanAsam');
 
-    const table = document.getElementById('salesTableBody');
-    const addBtn = document.getElementById('addRowBtn');
+    const tableTrain1 = document.getElementById('salesTableBodyTrain1');
+    const tableTrain2 = document.getElementById('salesTableBodyTrain2');
+    const tableQMB = document.getElementById('salesTableBodyQMB');
+    const addBtnTrain1 = document.getElementById('addRowBtnTrain1');
+    const addBtnTrain2 = document.getElementById('addRowBtnTrain2');
+    const addBtnQMB = document.getElementById('addRowBtnQMB');
     let currentDate = new Date();
     let localDrafts = {}; // Untuk menyimpan draft lokal
     let initialLoad = true; // Flag untuk initial load
+    let currentTrain = 'Train1'; // Default active train
     
     const daftarPerusahaan = [
       "DJM",
@@ -286,15 +328,38 @@ td select:focus {
       applyFilter();
     }
 
-    addBtn.addEventListener('click', () => addRow());
+    // Function to switch between train tabs
+    window.switchTrain = function(train) {
+      currentTrain = train;
+      document.querySelectorAll('.train-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.train-container').forEach(container => {
+        container.classList.remove('active');
+      });
+      
+      document.querySelector(`.train-tab[data-train="${train}"]`).classList.add('active');
+      document.querySelector(`.train-container[data-train="${train}"]`).classList.add('active');
+      
+      applyFilter();
+    }
 
-    function addRow(data = null, key = null) {
+    addBtnTrain1.addEventListener('click', () => addRow('Train1'));
+    addBtnTrain2.addEventListener('click', () => addRow('Train2'));
+    addBtnQMB.addEventListener('click', () => addRow('QMB'));
+
+    function addRow(train, data = null, key = null) {
+      let table;
+      if (train === 'Train1') table = tableTrain1;
+      else if (train === 'Train2') table = tableTrain2;
+      else table = tableQMB;
+      
       const tr = document.createElement('tr');
       const isNew = !data;
       const draftId = 'draft-' + Date.now();
       
       if (isNew) {
-        localDrafts[draftId] = { status: 'editing', element: tr };
+        localDrafts[draftId] = { status: 'editing', element: tr, train: train };
       }
 
       // Buat options untuk dropdown perusahaan
@@ -323,16 +388,27 @@ td select:focus {
         </td>`;
 
       tr.setAttribute('data-draft-id', draftId);
+      tr.setAttribute('data-train', train);
       table.appendChild(tr);
-      numberRows();
+      numberRows(train);
     }
 
-    function numberRows() {
+    function numberRows(train) {
+      let table;
+      if (train === 'Train1') table = tableTrain1;
+      else if (train === 'Train2') table = tableTrain2;
+      else table = tableQMB;
+      
       const rows = [...table.querySelectorAll('tr:not(.total-row)')];
       rows.forEach((row, i) => row.cells[0].innerText = i + 1);
     }
 
-    function calculateTotalNetWeight() {
+    function calculateTotalNetWeight(train) {
+      let table;
+      if (train === 'Train1') table = tableTrain1;
+      else if (train === 'Train2') table = tableTrain2;
+      else table = tableQMB;
+      
       const rows = [...table.querySelectorAll('tr:not(.total-row)')];
       let total = 0;
       
@@ -349,7 +425,12 @@ td select:focus {
       return total.toFixed(2);
     }
 
-    function updateTotalRow() {
+    function updateTotalRow(train) {
+      let table;
+      if (train === 'Train1') table = tableTrain1;
+      else if (train === 'Train2') table = tableTrain2;
+      else table = tableQMB;
+      
       const existingTotalRow = table.querySelector('.total-row');
       if (existingTotalRow) {
         existingTotalRow.remove();
@@ -357,7 +438,7 @@ td select:focus {
       
       const totalRow = document.createElement('tr');
       totalRow.className = 'total-row';
-      const totalNetWeight = calculateTotalNetWeight();
+      const totalNetWeight = calculateTotalNetWeight(train);
       
       totalRow.innerHTML = `
         <td colspan="6" style="text-align: right;">Total Net Weight:</td>
@@ -372,15 +453,27 @@ td select:focus {
 
     window.updateNetWeight = function(el) {
       const row = el.closest('tr');
+      const tableId = row.closest('tbody').id;
+      let train;
+      if (tableId === 'salesTableBodyTrain1') train = 'Train1';
+      else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
+      else train = 'QMB';
+      
       const tare = parseFloat(row.cells[6].querySelector('input').value) || 0;
       const gross = parseFloat(row.cells[7].querySelector('input').value) || 0;
       const net = (gross - tare).toFixed(2);
       row.cells[8].innerText = net + ' ton';
-      updateTotalRow();
+      updateTotalRow(train);
     }
 
     window.submitRow = function(btn) {
       const row = btn.closest('tr');
+      const tableId = row.closest('tbody').id;
+      let train;
+      if (tableId === 'salesTableBodyTrain1') train = 'Train1';
+      else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
+      else train = 'QMB';
+      
       const draftId = row.getAttribute('data-draft-id');
       
       if (draftId && localDrafts[draftId]) {
@@ -388,20 +481,28 @@ td select:focus {
       }
       
       const data = getRowData(row);
+      data.train = train; // Add train information to the data
+      
       push(salesRef, data).then(() => {
         Swal.fire('Berhasil', 'Data berhasil disimpan!', 'success');
       }).catch(err => {
         Swal.fire('Gagal', 'Gagal menyimpan data: ' + err, 'error');
         if (draftId) {
-          localDrafts[draftId] = { status: 'editing', element: row };
+          localDrafts[draftId] = { status: 'editing', element: row, train: train };
         }
       });
       row.remove();
-      updateTotalRow();
+      updateTotalRow(train);
     }
 
     window.cancelRow = function(btn) {
       const row = btn.closest('tr');
+      const tableId = row.closest('tbody').id;
+      let train;
+      if (tableId === 'salesTableBodyTrain1') train = 'Train1';
+      else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
+      else train = 'QMB';
+      
       const draftId = row.getAttribute('data-draft-id');
       
       if (draftId && localDrafts[draftId]) {
@@ -409,7 +510,7 @@ td select:focus {
       }
       
       row.remove();
-      updateTotalRow();
+      updateTotalRow(train);
     }
 
     window.editRow = function(btn) {
@@ -429,7 +530,14 @@ td select:focus {
 
     window.updateRow = function(btn, key) {
       const row = btn.closest('tr');
+      const tableId = row.closest('tbody').id;
+      let train;
+      if (tableId === 'salesTableBodyTrain1') train = 'Train1';
+      else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
+      else train = 'QMB';
+      
       const data = getRowData(row);
+      data.train = train; // Update train information
       
       update(ref(db, `penjualanAsam/${key}`), data)
         .then(() => Swal.fire('Berhasil', 'Data berhasil diperbarui!', 'success'))
@@ -447,7 +555,7 @@ td select:focus {
       
       btn.style.display = 'none';
       row.querySelector('button[onclick^="editRow"]').style.display = 'inline';
-      updateTotalRow();
+      updateTotalRow(train);
     }
 
     window.confirmDeleteRow = function(key) {
@@ -500,6 +608,7 @@ td select:focus {
 
       const filtered = allData.filter(({ val }) => {
         const matchPerusahaan = !perusahaan || val.perusahaan.toLowerCase().includes(perusahaan);
+        const matchTrain = !currentTrain || val.train === currentTrain;
 
         const tanggal = val.tanggal || '';
         const jam = val.loadingTime || '00:00';
@@ -510,7 +619,7 @@ td select:focus {
         const matchStart = !startDate || fullDate >= new Date(startDate);
         const matchEnd = !endDate || fullDate <= new Date(endDate);
 
-        return matchPerusahaan && matchBulan && matchStart && matchEnd;
+        return matchPerusahaan && matchBulan && matchStart && matchEnd && matchTrain;
       });
 
       renderTable(filtered);
@@ -528,70 +637,16 @@ td select:focus {
 
     window.exportToExcel = function() {
       try {
-        const table = document.getElementById('salesTableBody');
         const wb = XLSX.utils.book_new();
-        const data = [];
         
-        const headers = [
-          "No", 
-          "Tanggal", 
-          "Perusahaan", 
-          "No. Truck", 
-          "Loading", 
-          "Release", 
-          "Tare (ton)", 
-          "Gross (ton)", 
-          "Net (ton)"
-        ];
-        data.push(headers);
+        // Export Train 1
+        exportTrainToExcel(wb, 'Train1', 'Penjualan Asam Train 1');
         
-        const rows = table.querySelectorAll('tr:not(.total-row)');
-        rows.forEach(row => {
-          const rowData = [];
-          for (let i = 0; i < row.cells.length - 1; i++) {
-            let cellContent = '';
-            
-            if (i === 0) {
-              cellContent = row.cells[i].textContent || '';
-            } 
-            else if (i === 8) {
-              const netWeightSpan = row.cells[i].querySelector('.net-weight');
-              cellContent = netWeightSpan ? netWeightSpan.textContent.replace(' ton', '') : '0';
-            }
-            else {
-              const input = row.cells[i].querySelector('input');
-              const div = row.cells[i].querySelector('div');
-              cellContent = input ? input.value : (div ? div.textContent : row.cells[i].textContent || '');
-            }
-            
-            rowData.push(cellContent);
-          }
-          data.push(rowData);
-        });
+        // Export Train 2
+        exportTrainToExcel(wb, 'Train2', 'Penjualan Asam Train 2');
         
-        const totalNetWeight = calculateTotalNetWeight();
-        const totalRow = [
-          '', '', '', '', '', '', 
-          'Total Net Weight:', 
-          '', 
-          totalNetWeight
-        ];
-        data.push(totalRow);
-        
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        
-        if (data.length > 1) {
-          const totalRowIndex = data.length - 1;
-          for (let i = 0; i < headers.length; i++) {
-            const cellRef = XLSX.utils.encode_cell({r: totalRowIndex, c: i});
-            if (!ws[cellRef]) continue;
-            ws[cellRef].s = ws[cellRef].s || {};
-            ws[cellRef].s.font = ws[cellRef].s.font || {};
-            ws[cellRef].s.font.bold = true;
-          }
-        }
-        
-        XLSX.utils.book_append_sheet(wb, ws, "Penjualan Asam");
+        // Export QMB
+        exportTrainToExcel(wb, 'QMB', 'Penjualan Asam QMB');
         
         const today = new Date().toISOString().split('T')[0];
         XLSX.writeFile(wb, `Data_Penjualan_Asam_${today}.xlsx`);
@@ -602,10 +657,78 @@ td select:focus {
       }
     };
 
+    function exportTrainToExcel(wb, train, sheetName) {
+      const table = train === 'Train1' ? document.getElementById('salesTableBodyTrain1') : 
+                   train === 'Train2' ? document.getElementById('salesTableBodyTrain2') :
+                   document.getElementById('salesTableBodyQMB');
+      const data = [];
+      
+      const headers = [
+        "No", 
+        "Tanggal", 
+        "Perusahaan", 
+        "No. Truck", 
+        "Loading", 
+        "Release", 
+        "Tare (ton)", 
+        "Gross (ton)", 
+        "Net (ton)"
+      ];
+      data.push(headers);
+      
+      const rows = table.querySelectorAll('tr:not(.total-row)');
+      rows.forEach(row => {
+        const rowData = [];
+        for (let i = 0; i < row.cells.length - 1; i++) {
+          let cellContent = '';
+          
+          if (i === 0) {
+            cellContent = row.cells[i].textContent || '';
+          } 
+          else if (i === 8) {
+            const netWeightSpan = row.cells[i].querySelector('.net-weight');
+            cellContent = netWeightSpan ? netWeightSpan.textContent.replace(' ton', '') : '0';
+          }
+          else {
+            const input = row.cells[i].querySelector('input');
+            const div = row.cells[i].querySelector('div');
+            cellContent = input ? input.value : (div ? div.textContent : row.cells[i].textContent || '');
+          }
+          
+          rowData.push(cellContent);
+        }
+        data.push(rowData);
+      });
+      
+      const totalNetWeight = calculateTotalNetWeight(train);
+      const totalRow = [
+        '', '', '', '', '', '', 
+        'Total Net Weight:', 
+        '', 
+        totalNetWeight
+      ];
+      data.push(totalRow);
+      
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      
+      if (data.length > 1) {
+        const totalRowIndex = data.length - 1;
+        for (let i = 0; i < headers.length; i++) {
+          const cellRef = XLSX.utils.encode_cell({r: totalRowIndex, c: i});
+          if (!ws[cellRef]) continue;
+          ws[cellRef].s = ws[cellRef].s || {};
+          ws[cellRef].s.font = ws[cellRef].s.font || {};
+          ws[cellRef].s.font.bold = true;
+        }
+      }
+      
+      XLSX.utils.book_append_sheet(wb, ws, sheetName);
+    }
+
     function renderTable(dataArray) {
       // Simpan draft yang sedang diedit
       const currentDrafts = [];
-      table.querySelectorAll('tr').forEach(row => {
+      [...tableTrain1.querySelectorAll('tr'), ...tableTrain2.querySelectorAll('tr'), ...tableQMB.querySelectorAll('tr')].forEach(row => {
         const draftId = row.getAttribute('data-draft-id');
         if (draftId && localDrafts[draftId]) {
           currentDrafts.push(localDrafts[draftId]);
@@ -613,23 +736,40 @@ td select:focus {
       });
       
       // Bersihkan tabel
-      table.innerHTML = '';
+      tableTrain1.innerHTML = '';
+      tableTrain2.innerHTML = '';
+      tableQMB.innerHTML = '';
       
       // Render data dari Firebase
-      dataArray.forEach(entry => addRow(entry.val, entry.key));
+      dataArray.forEach(entry => {
+        const train = entry.val.train || 'Train1'; // Default to Train1 if train info not available
+        addRow(train, entry.val, entry.key);
+      });
       
       // Kembalikan draft yang sedang diedit
       currentDrafts.forEach(draft => {
+        let table;
+        if (draft.train === 'Train1') table = tableTrain1;
+        else if (draft.train === 'Train2') table = tableTrain2;
+        else table = tableQMB;
+        
         table.appendChild(draft.element);
       });
       
-      updateTotalRow();
-      numberRows();
+      updateTotalRow('Train1');
+      updateTotalRow('Train2');
+      updateTotalRow('QMB');
+      numberRows('Train1');
+      numberRows('Train2');
+      numberRows('QMB');
     }
 
     document.addEventListener('DOMContentLoaded', function() {
       updateDateHeader();
       updateDateFilter();
+      
+      // Set default active tab
+      switchTrain('Train1');
       
       // Event listener untuk sebelum unload
       window.addEventListener('beforeunload', (e) => {
@@ -668,6 +808,11 @@ td select:focus {
   <h2>Data Penjualan Asam</h2>
   <div id="dateHeader" class="date-header"></div>
   
+  <div class="train-tabs">
+    <div class="train-tab active" data-train="Train1" onclick="switchTrain('Train1')">Train 1</div>
+    <div class="train-tab" data-train="Train2" onclick="switchTrain('Train2')">Train 2</div>
+    <div class="train-tab" data-train="QMB" onclick="switchTrain('QMB')">QMB</div>
+  </div>
   
   <div style="max-width: 1200px; width: 100%; margin-bottom: 20px;">
     <fieldset style="background-color: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
@@ -701,30 +846,83 @@ td select:focus {
     <button onclick="prevDay()">← Sebelumnya</button>
     <div class="date-display" id="currentDateDisplay"></div>
     <button onclick="nextDay()">Berikutnya →</button>
-    
-  </div>
-  <div class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 40px">No</th>
-          <th style="width: 70px">Tanggal</th>
-          <th style="width: 70px">Perusahaan</th>
-          <th style="width: 60px">No.Tanker</th>
-          <th style="width: 70px">Loading Time</th>
-          <th style="width: 70px">Release Time</th>
-          <th style="width: 50px">Tare Weight</th>
-          <th style="width: 50px">Gross Weight</th>
-          <th style="width: 50px">Net Weight</th>
-          <th style="width: 120px">Aksi</th>
-        </tr>
-      </thead>
-      <tbody id="salesTableBody">
-      </tbody>
-    </table>
   </div>
   
-  <button id="addRowBtn" style="margin-top: 10px;">Tambah Baris</button>
-  <button id="exportBtn" onclick="exportToExcel()">Export to Excel</button>
+  <!-- Train 1 Container -->
+  <div class="train-container active" data-train="Train1">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px">No</th>
+            <th style="width: 70px">Tanggal</th>
+            <th style="width: 70px">Perusahaan</th>
+            <th style="width: 60px">No.Tanker</th>
+            <th style="width: 70px">Loading Time</th>
+            <th style="width: 70px">Release Time</th>
+            <th style="width: 50px">Tare Weight</th>
+            <th style="width: 50px">Gross Weight</th>
+            <th style="width: 50px">Net Weight</th>
+            <th style="width: 120px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="salesTableBodyTrain1">
+        </tbody>
+      </table>
+    </div>
+    <button id="addRowBtnTrain1" style="margin-top: 10px;">Tambah Baris (Train 1)</button>
+  </div>
+  
+  <!-- Train 2 Container -->
+  <div class="train-container" data-train="Train2">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px">No</th>
+            <th style="width: 70px">Tanggal</th>
+            <th style="width: 70px">Perusahaan</th>
+            <th style="width: 60px">No.Tanker</th>
+            <th style="width: 70px">Loading Time</th>
+            <th style="width: 70px">Release Time</th>
+            <th style="width: 50px">Tare Weight</th>
+            <th style="width: 50px">Gross Weight</th>
+            <th style="width: 50px">Net Weight</th>
+            <th style="width: 120px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="salesTableBodyTrain2">
+        </tbody>
+      </table>
+    </div>
+    <button id="addRowBtnTrain2" style="margin-top: 10px;">Tambah Baris (Train 2)</button>
+  </div>
+  
+  <!-- QMB Container -->
+  <div class="train-container" data-train="QMB">
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40px">No</th>
+            <th style="width: 70px">Tanggal</th>
+            <th style="width: 70px">Perusahaan</th>
+            <th style="width: 60px">No.Tanker</th>
+            <th style="width: 70px">Loading Time</th>
+            <th style="width: 70px">Release Time</th>
+            <th style="width: 50px">Tare Weight</th>
+            <th style="width: 50px">Gross Weight</th>
+            <th style="width: 50px">Net Weight</th>
+            <th style="width: 120px">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="salesTableBodyQMB">
+        </tbody>
+      </table>
+    </div>
+    <button id="addRowBtnQMB" style="margin-top: 10px;">Tambah Baris (QMB)</button>
+      <button id="exportBtn" onclick="exportToExcel()">Export to Excel</button>
+  </div>
+
 </body>
 </html>
