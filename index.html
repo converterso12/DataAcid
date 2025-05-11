@@ -4,33 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Penjualan Asam</title>
- <style>
- 	body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0;
-  padding: 20px;
-  background: linear-gradient(135deg, #dbeafe, #ecfeff);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #dbeafe, #ecfeff);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-h2 {
-  color: #1e3a8a;
-  margin-bottom: 10px;
-  font-size: 28px;
-  font-weight: 600;
-}
+    h2 {
+      color: #1e3a8a;
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 600;
+    }
 
-.date-header {
-  color: #1e3a8a;
-  margin-bottom: 20px;
-  font-size: 18px;
-  font-weight: 500;
-}
+    .date-header {
+      color: #1e3a8a;
+      margin-bottom: 20px;
+      font-size: 18px;
+      font-weight: 500;
+    }
 
-#exportBtn {
+    #exportBtn {
       background-color: #10b981;
       margin-top: 10px;
       padding: 10px 18px;
@@ -54,210 +54,298 @@ h2 {
       margin-top: 10px;
     }
 
-.table-container {
-  width: 100%;
-  max-width: 1200px;
-  overflow-x: auto;
-  margin-bottom: 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-}
+    .table-container {
+      width: 100%;
+      max-width: 1200px;
+      overflow-x: auto;
+      margin-bottom: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
 
-th, td {
-  border: 1px solid #f1f5f9;
-  padding: 12px;
-  text-align: center;
-  font-size: 14px;
-  color: #334155;
-}
+    th, td {
+      border: 1px solid #f1f5f9;
+      padding: 12px;
+      text-align: center;
+      font-size: 14px;
+      color: #334155;
+    }
 
-th {
-  background-color: #3b82f6;
-  color: white;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
+    th {
+      background-color: #3b82f6;
+      color: white;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
 
-td input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 6px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #1e293b;
-  background-color: #f8fafc;
-  transition: border-color 0.2s;
-}
+    td input, td select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #1e293b;
+      background-color: #f8fafc;
+      transition: border-color 0.2s;
+    }
 
-td input:focus {
-  border-color: #3b82f6;
-  outline: none;
-  background-color: #fff;
-}
+    td input:focus, td select:focus {
+      border-color: #3b82f6;
+      outline: none;
+      background-color: #fff;
+    }
 
-button {
-  margin: 2px;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  background-color: #3b82f6;
-  color: white;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background-color 0.2s, transform 0.1s;
-}
+    button {
+      margin: 2px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3b82f6;
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
+      transition: background-color 0.2s, transform 0.1s;
+    }
 
-button:hover {
-  background-color: #2563eb;
-  transform: translateY(-1px);
-}
+    button:hover {
+      background-color: #2563eb;
+      transform: translateY(-1px);
+    }
 
-#addRowBtnTrain1, #addRowBtnTrain2, #addRowBtnQMB {
-  background-color: #10b981;
-  margin-bottom: 18px;
-  padding: 10px 18px;
-  font-size: 15px;
-  font-weight: 500;
-}
+    #addRowBtnTrain1, #addRowBtnTrain2, #addRowBtnQMB {
+      background-color: #10b981;
+      margin-bottom: 18px;
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: 500;
+    }
 
-#addRowBtnTrain1:hover, #addRowBtnTrain2:hover, #addRowBtnQMB:hover {
-  background-color: #059669;
-}
+    #addRowBtnTrain1:hover, #addRowBtnTrain2:hover, #addRowBtnQMB:hover {
+      background-color: #059669;
+    }
 
-.net-weight {
-  font-weight: bold;
-  color: #111827;
-}
+    .net-weight {
+      font-weight: bold;
+      color: #111827;
+    }
 
-.total-row {
-  background-color:#F3F3F3;
-  font-weight: bold;
-  position: sticky;
-  left: 0;
-}
+    .total-row {
+      background-color:#F3F3F3;
+      font-weight: bold;
+      position: sticky;
+      left: 0;
+    }
 
-.total-row td {
-  color: #000000;
-}
+    .total-row td {
+      color: #000000;
+    }
 
-.date-navigation {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
+    .date-navigation {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
 
-.date-navigation button {
-  padding: 8px 12px;
-  font-size: 14px;
-}
+    .date-navigation button {
+      padding: 8px 12px;
+      font-size: 14px;
+    }
 
-.date-display {
-  font-weight: bold;
-  color: #1e3a8a;
-  min-width: 120px;
-  text-align: center;
-}
+    .date-display {
+      font-weight: bold;
+      color: #1e3a8a;
+      min-width: 120px;
+      text-align: center;
+    }
 
-.train-tabs {
-  display: flex;
-  margin-bottom: 15px;
-  width: 100%;
-  max-width: 1200px;
-}
+    .train-tabs {
+      display: flex;
+      margin-bottom: 15px;
+      width: 100%;
+      max-width: 1200px;
+    }
 
-.train-tab {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-  background-color: #e2e8f0;
-  cursor: pointer;
-  border-radius: 8px 8px 0 0;
-  margin-right: 5px;
-  font-weight: 500;
-  transition: background-color 0.2s;
-}
+    .train-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background-color: #e2e8f0;
+      cursor: pointer;
+      border-radius: 8px 8px 0 0;
+      margin-right: 5px;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
 
-.train-tab:last-child {
-  margin-right: 0;
-}
+    .train-tab:last-child {
+      margin-right: 0;
+    }
 
-.train-tab.active {
-  background-color: #3b82f6;
-  color: white;
-}
+    .train-tab.active {
+      background-color: #3b82f6;
+      color: white;
+    }
 
-.train-container {
-  width: 100%;
-  display: none;
-}
+    .train-container {
+      width: 100%;
+      display: none;
+    }
 
-.train-container.active {
-  display: block;
-}
+    .train-container.active {
+      display: block;
+    }
 
-@media(max-width: 768px) {
-  table, th, td {
-    font-size: 13px;
-    padding: 8px;
-  }
-  button {
-    padding: 5px 10px;
-    font-size: 11px;
-  }
-  td input {
-    font-size: 13px;
-  }
-  td select {
-     width: 100%;
-     padding: 6px;
-     border: 1px solid #e2e8f0;
-     border-radius: 6px;
-     font-size: 14px;
-     background-color: #f8fafc;
-   }
-   .perusahaan-select {
-  width: 100%;
-  padding: 6px;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #f8fafc;
-}
+    /* Image Upload Styles */
+    .image-preview {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: transform 0.2s;
+    }
 
-td select:focus {
-  border-color: #3b82f6;
-  outline: none;
-  background-color: #fff;
-}
-}
- </style>
+    .image-preview:hover {
+      transform: scale(1.05);
+    }
+
+    .image-upload-btn {
+      background-color: #4b5563;
+      padding: 6px 10px;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 120px;
+      display: inline-block;
+    }
+
+    .image-upload-btn:hover {
+      background-color: #374151;
+    }
+
+    /* Modal Styles */
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    .progress-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .progress-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .progress-bar {
+      height: 20px;
+      background-color: #e2e8f0;
+      border-radius: 10px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background-color: #3b82f6;
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    @media(max-width: 768px) {
+      table, th, td {
+        font-size: 13px;
+        padding: 8px;
+      }
+      button {
+        padding: 5px 10px;
+        font-size: 11px;
+      }
+      td input, td select {
+        font-size: 13px;
+      }
+      .image-preview {
+        width: 60px;
+        height: 60px;
+      }
+      .image-upload-btn {
+        max-width: 80px;
+        font-size: 11px;
+        padding: 4px 8px;
+      }
+    }
+  </style>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.min.js"></script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getDatabase, ref, push, update, remove, onValue } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+    import { getDatabase, ref, push, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-storage.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyD21AniBt0GcuShvdrmeJR3lmdOlYhUEiU",
-      authDomain: "workrequest-8482a.firebaseapp.com",
-      databaseURL: "https://workrequest-8482a-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "workrequest-8482a",
-      storageBucket: "workrequest-8482a.appspot.com",
-      messagingSenderId: "230020602695",
-      appId: "1:230020602695:web:802e9f107a8987e532ca62"
-    };
+  apiKey: "AIzaSyCyvkWAbIDB588aMjBY41NbD2HMLakXiUE",
+  authDomain: "historyconverter-2862f.firebaseapp.com",
+  databaseURL: "https://historyconverter-2862f-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "historyconverter-2862f",
+  storageBucket: "historyconverter-2862f.appspot.com",
+  messagingSenderId: "38512001938",
+  appId: "1:38512001938:web:de4f34f3e5856e2347774b"
+};
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    const storage = getStorage(app);
     const salesRef = ref(db, 'penjualanAsam');
 
     const tableTrain1 = document.getElementById('salesTableBodyTrain1');
@@ -267,9 +355,9 @@ td select:focus {
     const addBtnTrain2 = document.getElementById('addRowBtnTrain2');
     const addBtnQMB = document.getElementById('addRowBtnQMB');
     let currentDate = new Date();
-    let localDrafts = {}; // Untuk menyimpan draft lokal
-    let initialLoad = true; // Flag untuk initial load
-    let currentTrain = 'Train1'; // Default active train
+    let localDrafts = {};
+    let initialLoad = true;
+    let currentTrain = 'Train1';
     
     const daftarPerusahaan = [
       "DJM",
@@ -277,7 +365,58 @@ td select:focus {
       "RISUN"
     ];
 
-    // Function to format date as DD-MM-YYYY
+    // Fungsi kompresi gambar
+    async function compressImage(file) {
+      const options = {
+        maxSizeMB: 0.5,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+        fileType: 'image/jpeg',
+        initialQuality: 0.7
+      };
+
+      try {
+        const compressedFile = await imageCompression(file, options);
+        console.log('Kompresi berhasil. Ukuran asli:', (file.size / 1024 / 1024).toFixed(2), 'MB =>', 
+                    (compressedFile.size / 1024 / 1024).toFixed(2), 'MB');
+        return compressedFile;
+      } catch (error) {
+        console.error('Error kompresi gambar:', error);
+        throw error;
+      }
+    }
+
+    // Fungsi validasi gambar
+    window.validateImage = function(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      // Validasi ukuran file (max 5MB)
+      const maxSize = 5 * 1024 * 1024;
+      if (file.size > maxSize) {
+        Swal.fire('Peringatan', 'Ukuran gambar terlalu besar. Maksimal 5MB', 'warning');
+        input.value = '';
+        return;
+      }
+
+      // Validasi tipe file
+      const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+      if (!validTypes.includes(file.type)) {
+        Swal.fire('Peringatan', 'Hanya format JPG, PNG, atau WebP yang diperbolehkan', 'warning');
+        input.value = '';
+        return;
+      }
+
+      // Tampilkan nama file di tombol upload
+      const uploadBtn = input.previousElementSibling;
+      if (uploadBtn) {
+        uploadBtn.textContent = file.name.length > 15 
+          ? file.name.substring(0, 15) + '...' 
+          : file.name;
+      }
+    }
+
+    // Fungsi format tanggal
     function formatDate(date) {
       const d = new Date(date);
       const day = String(d.getDate()).padStart(2, '0');
@@ -286,25 +425,112 @@ td select:focus {
       return `${day}-${month}-${year}`;
     }
 
-    // Function to get date in YYYY-MM-DD format
     function getFormattedDate(date) {
       return date.toISOString().split('T')[0];
     }
 
-    // Update date header with current date
     function updateDateHeader() {
       document.getElementById('dateHeader').textContent = `Tanggal: ${formatDate(currentDate)}`;
       document.getElementById('currentDateDisplay').textContent = formatDate(currentDate);
     }
 
-    // Function to update date filter based on currentDate
     function updateDateFilter() {
       const dateStr = getFormattedDate(currentDate);
       document.getElementById('filterStart').value = `${dateStr}T00:00`;
       document.getElementById('filterEnd').value = `${dateStr}T23:59`;
     }
 
-    // Function to navigate to previous day
+    // Fungsi modal gambar
+    window.openImageModal = function(src) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modal.style.display = 'flex';
+      modalImg.src = src;
+    }
+
+    window.closeImageModal = function() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+
+    // Fungsi progress modal
+    window.showProgressModal = function() {
+      document.getElementById('progressModal').style.display = 'flex';
+      document.getElementById('progressFill').style.width = '0%';
+      document.getElementById('progressText').textContent = 'Mengupload data... 0%';
+    }
+
+    window.updateProgress = function(percent) {
+      document.getElementById('progressFill').style.width = `${percent}%`;
+      document.getElementById('progressText').textContent = `Mengupload data... ${percent}%`;
+    }
+
+    window.hideProgressModal = function() {
+      document.getElementById('progressModal').style.display = 'none';
+    }
+
+    // Fungsi upload gambar dengan kompresi
+    window.uploadImage = async function(input, type, row, key = null) {
+  if (!input || !row) {
+    console.error('Element not found');
+    return;
+  }
+
+  const file = input.files[0];
+  if (!file) return;
+
+  try {
+    showProgressModal();
+    updateProgress(10);
+
+    // Kompresi gambar
+    updateProgress(20);
+    const compressedFile = await compressImage(file);
+    updateProgress(40);
+
+    const storagePath = `penjualanAsam/${Date.now()}_${type}_${compressedFile.name}`;
+    const imageRef = storageRef(storage, storagePath);
+
+    // Upload gambar
+    updateProgress(60);
+    await uploadBytes(imageRef, compressedFile);
+    const url = await getDownloadURL(imageRef);
+    updateProgress(90);
+
+    // Update preview
+    const previewId = key ? `${type}Preview_${key}` : `${type}Preview`;
+    const preview = row.querySelector('img.image-preview') || document.getElementById(previewId);
+    if (preview) {
+      preview.src = url;
+      preview.style.display = 'block';
+    }
+
+    // Simpan URL
+    if (!key) {
+      row.dataset[type] = url;
+    } else {
+      const updates = {};
+      updates[`penjualanAsam/${key}/${type}`] = url;
+      await update(ref(db), updates);
+    }
+
+    // Sembunyikan tombol upload
+    const uploadBtn = input.previousElementSibling;
+    if (uploadBtn) uploadBtn.style.display = 'none';
+
+    updateProgress(100);
+    setTimeout(() => {
+      hideProgressModal();
+      Swal.fire('Berhasil', 'Gambar berhasil diunggah!', 'success');
+    }, 500);
+
+  } catch (error) {
+    hideProgressModal();
+    console.error('Upload error:', error);
+    Swal.fire('Gagal', 'Gagal mengunggah gambar: ' + error.message, 'error');
+  }
+}
+
+    // Navigasi tanggal
     window.prevDay = function() {
       currentDate.setDate(currentDate.getDate() - 1);
       updateDateHeader();
@@ -312,7 +538,6 @@ td select:focus {
       applyFilter();
     }
 
-    // Function to navigate to next day
     window.nextDay = function() {
       currentDate.setDate(currentDate.getDate() + 1);
       updateDateHeader();
@@ -320,7 +545,6 @@ td select:focus {
       applyFilter();
     }
 
-    // Function to go to today
     window.goToToday = function() {
       currentDate = new Date();
       updateDateHeader();
@@ -328,7 +552,7 @@ td select:focus {
       applyFilter();
     }
 
-    // Function to switch between train tabs
+    // Switch tab train
     window.switchTrain = function(train) {
       currentTrain = train;
       document.querySelectorAll('.train-tab').forEach(tab => {
@@ -344,6 +568,7 @@ td select:focus {
       applyFilter();
     }
 
+    // Fungsi tambah row
     addBtnTrain1.addEventListener('click', () => addRow('Train1'));
     addBtnTrain2.addEventListener('click', () => addRow('Train2'));
     addBtnQMB.addEventListener('click', () => addRow('QMB'));
@@ -369,6 +594,9 @@ td select:focus {
         perusahaanOptions += `<option value="${perusahaan}" ${selected}>${perusahaan}</option>`;
       });
 
+      // Generate unique ID untuk image preview
+      const ticketPreviewId = key ? `ticketPreview_${key}` : `ticketPreview_${Date.now()}`;
+
       tr.innerHTML = `
         <td></td>
         <td>${isNew ? `<input type="date" value="${data?.tanggal || getFormattedDate(currentDate)}">` : `<div>${data?.tanggal || ''}</div><input type="date" value="${data?.tanggal || ''}" style="display:none">`}</td>
@@ -379,6 +607,15 @@ td select:focus {
         <td>${isNew ? `<input type="number" value="${data?.tareWeight || ''}" onchange="updateNetWeight(this)">` : `<div>${data?.tareWeight || 0}</div><input type="number" value="${data?.tareWeight || ''}" onchange="updateNetWeight(this)" style="display:none">`}</td>
         <td>${isNew ? `<input type="number" value="${data?.grossWeight || ''}" onchange="updateNetWeight(this)">` : `<div>${data?.grossWeight || 0}</div><input type="number" value="${data?.grossWeight || ''}" onchange="updateNetWeight(this)" style="display:none">`}</td>
         <td><span class="net-weight">${data ? (data.grossWeight - data.tareWeight).toFixed(2) + ' ton' : ''}</span></td>
+          <td>
+      ${data?.ticketImage ? 
+        `<img id="${ticketPreviewId}" src="${data.ticketImage}" class="image-preview" onclick="openImageModal('${data.ticketImage}')">
+         <button class="image-upload-btn" style="display:none" onclick="this.nextElementSibling.click()">Upload Tiket</button>
+         <input type="file" accept="image/*" style="display:none">` :
+        `<img id="${ticketPreviewId}" class="image-preview" style="display:none">
+         <button class="image-upload-btn" onclick="this.nextElementSibling.click()">Upload Tiket</button>
+         <input type="file" accept="image/*" style="display:none">`}
+    </td>
         <td>
           ${isNew ? 
             '<button onclick="submitRow(this)">Submit</button><button onclick="cancelRow(this)">Batal</button>' :
@@ -386,6 +623,19 @@ td select:focus {
              <button onclick="updateRow(this, '${key}')" style="display:none">Update</button>
              <button onclick="confirmDeleteRow('${key}')">Hapus</button>`}
         </td>`;
+
+      // Simpan URL gambar yang sudah ada
+  if (data?.ticketImage) {
+    tr.dataset.ticketImage = data.ticketImage;
+  }
+
+  // Set event handler
+  const fileInput = tr.querySelector('input[type="file"]');
+  if (fileInput) {
+    fileInput.onchange = function() {
+      uploadImage(this, 'ticketImage', tr, key);
+    };
+  }
 
       tr.setAttribute('data-draft-id', draftId);
       tr.setAttribute('data-train', train);
@@ -446,6 +696,7 @@ td select:focus {
         <td></td>
         <td>${totalNetWeight} ton</td>
         <td></td>
+        <td></td>
       `;
       
       table.appendChild(totalRow);
@@ -466,34 +717,64 @@ td select:focus {
       updateTotalRow(train);
     }
 
-    window.submitRow = function(btn) {
-      const row = btn.closest('tr');
-      const tableId = row.closest('tbody').id;
-      let train;
-      if (tableId === 'salesTableBodyTrain1') train = 'Train1';
-      else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
-      else train = 'QMB';
+    window.submitRow = async function(btn) {
+  const row = btn.closest('tr');
+  const tableId = row.closest('tbody').id;
+  let train;
+  if (tableId === 'salesTableBodyTrain1') train = 'Train1';
+  else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
+  else train = 'QMB';
+  
+  const draftId = row.getAttribute('data-draft-id');
+  
+  if (draftId && localDrafts[draftId]) {
+    delete localDrafts[draftId];
+  }
+  
+  const data = getRowData(row);
+  data.train = train;
+  
+  showProgressModal();
+  updateProgress(10);
+  
+  try {
+    // Perbaikan selector input file
+    const ticketImageInput = row.querySelector('input[type="file"]');
+    let ticketImageUrl = row.dataset.ticketImage;
+    
+    if (ticketImageInput && ticketImageInput.files[0] && !ticketImageUrl) {
+      updateProgress(20);
+      const compressedFile = await compressImage(ticketImageInput.files[0]);
+      updateProgress(40);
       
-      const draftId = row.getAttribute('data-draft-id');
-      
-      if (draftId && localDrafts[draftId]) {
-        delete localDrafts[draftId];
-      }
-      
-      const data = getRowData(row);
-      data.train = train; // Add train information to the data
-      
-      push(salesRef, data).then(() => {
-        Swal.fire('Berhasil', 'Data berhasil disimpan!', 'success');
-      }).catch(err => {
-        Swal.fire('Gagal', 'Gagal menyimpan data: ' + err, 'error');
-        if (draftId) {
-          localDrafts[draftId] = { status: 'editing', element: row, train: train };
-        }
-      });
-      row.remove();
-      updateTotalRow(train);
+      const ticketPath = `penjualanAsam/${Date.now()}_ticket_${compressedFile.name}`;
+      const ticketRef = storageRef(storage, ticketPath);
+      await uploadBytes(ticketRef, compressedFile);
+      ticketImageUrl = await getDownloadURL(ticketRef);
+      updateProgress(70);
     }
+    
+    if (ticketImageUrl) data.ticketImage = ticketImageUrl;
+    
+    updateProgress(90);
+    await push(salesRef, data);
+    updateProgress(100);
+    
+    setTimeout(() => {
+      hideProgressModal();
+      Swal.fire('Berhasil', 'Data berhasil disimpan!', 'success');
+      row.remove();
+    }, 500);
+    
+  } catch (err) {
+    hideProgressModal();
+    Swal.fire('Gagal', 'Gagal menyimpan data: ' + err.message, 'error');
+    if (draftId) {
+      localDrafts[draftId] = { status: 'editing', element: row, train: train };
+    }
+  }
+  updateTotalRow(train);
+}
 
     window.cancelRow = function(btn) {
       const row = btn.closest('tr');
@@ -514,49 +795,95 @@ td select:focus {
     }
 
     window.editRow = function(btn) {
-      const row = btn.closest('tr');
-      
-      [...row.querySelectorAll('div')].forEach(div => div.style.display = 'none');
-      [...row.querySelectorAll('input, select')].forEach(input => {
-        input.style.display = 'block';
-        if(input.classList.contains('perusahaan-select')) {
-          input.style.width = '100%';
-        }
-      });
-      
-      row.querySelector('button[onclick^="updateRow"]').style.display = 'inline';
-      btn.style.display = 'none';
+  const row = btn.closest('tr');
+  const key = row.getAttribute('data-key');
+  
+  // Sembunyikan div dan tampilkan input
+  [...row.querySelectorAll('div')].forEach(div => div.style.display = 'none');
+  [...row.querySelectorAll('input, select')].forEach(input => {
+    input.style.display = 'block';
+    if(input.classList.contains('perusahaan-select')) {
+      input.style.width = '100%';
     }
-
-    window.updateRow = function(btn, key) {
-      const row = btn.closest('tr');
-      const tableId = row.closest('tbody').id;
-      let train;
-      if (tableId === 'salesTableBodyTrain1') train = 'Train1';
-      else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
-      else train = 'QMB';
-      
-      const data = getRowData(row);
-      data.train = train; // Update train information
-      
-      update(ref(db, `penjualanAsam/${key}`), data)
-        .then(() => Swal.fire('Berhasil', 'Data berhasil diperbarui!', 'success'))
-        .catch(err => Swal.fire('Gagal', 'Gagal memperbarui: ' + err, 'error'));
-
-      const inputs = row.querySelectorAll('input, select');
-      const divs = row.querySelectorAll('div');
-      
-      divs[0].textContent = inputs[0].value;
-      divs[1].textContent = inputs[1].value;
-      divs[2].textContent = inputs[2].value;
-      
-      [...divs].forEach(div => div.style.display = 'block');
-      [...inputs].forEach(input => input.style.display = 'none');
-      
-      btn.style.display = 'none';
-      row.querySelector('button[onclick^="editRow"]').style.display = 'inline';
-      updateTotalRow(train);
+  });
+  
+  // Tampilkan tombol update dan sembunyikan tombol edit
+  row.querySelector('button[onclick^="updateRow"]').style.display = 'inline';
+  btn.style.display = 'none';
+  
+  // Setel ulang input file
+  const fileInput = row.querySelector('input[type="file"]');
+  if (fileInput) {
+    fileInput.value = ''; // Reset input file
+    fileInput.onchange = function() {
+      uploadImage(this, 'ticketImage', row, key);
+    };
+    
+    // Tampilkan tombol upload jika tidak ada gambar
+    const uploadBtn = fileInput.previousElementSibling;
+    if (uploadBtn && !row.dataset.ticketImage) {
+      uploadBtn.style.display = 'inline-block';
+      uploadBtn.textContent = 'Upload Tiket';
     }
+  }
+}
+
+    window.updateRow = async function(btn, key) {
+  const row = btn.closest('tr');
+  const tableId = row.closest('tbody').id;
+  let train;
+  if (tableId === 'salesTableBodyTrain1') train = 'Train1';
+  else if (tableId === 'salesTableBodyTrain2') train = 'Train2';
+  else train = 'QMB';
+  
+  const data = getRowData(row);
+  data.train = train;
+  
+  try {
+    const ticketImageInput = row.querySelector('input[type="file"]');
+    
+    // Hanya proses upload jika ada file baru
+    if (ticketImageInput && ticketImageInput.files && ticketImageInput.files[0]) {
+      const compressedFile = await compressImage(ticketImageInput.files[0]);
+      const ticketPath = `penjualanAsam/${Date.now()}_ticket_${compressedFile.name}`;
+      const ticketRef = storageRef(storage, ticketPath);
+      await uploadBytes(ticketRef, compressedFile);
+      data.ticketImage = await getDownloadURL(ticketRef);
+      
+      // Update preview
+      const previewId = `ticketPreview_${key}`;
+      const preview = document.getElementById(previewId);
+      if (preview) {
+        preview.src = data.ticketImage;
+        preview.style.display = 'block';
+      }
+    }
+    
+    // Jika tidak ada file baru, pertahankan gambar yang ada
+    await update(ref(db, `penjualanAsam/${key}`), data);
+    Swal.fire('Berhasil', 'Data berhasil diperbarui!', 'success');
+    
+    // Kembalikan ke mode tampilan
+    const inputs = row.querySelectorAll('input, select');
+    const divs = row.querySelectorAll('div');
+    
+    divs[0].textContent = inputs[0].value;
+    divs[1].textContent = inputs[1].value;
+    divs[2].textContent = inputs[2].value;
+    
+    [...divs].forEach(div => div.style.display = 'block');
+    [...inputs].forEach(input => input.style.display = 'none');
+    
+    btn.style.display = 'none';
+    row.querySelector('button[onclick^="editRow"]').style.display = 'inline';
+    
+  } catch (err) {
+    console.error('Update error:', err);
+    Swal.fire('Gagal', 'Gagal memperbarui: ' + err.message, 'error');
+  }
+  
+  updateTotalRow(train);
+}
 
     window.confirmDeleteRow = function(key) {
       Swal.fire({
@@ -580,23 +907,49 @@ td select:focus {
     }
 
     window.deleteRow = function(key) {
-      remove(ref(db, `penjualanAsam/${key}`))
-        .then(() => Swal.fire('Berhasil', 'Data berhasil dihapus!', 'success'))
-        .catch(err => Swal.fire('Gagal', 'Gagal menghapus: ' + err, 'error'));
+      // First get the data to check for ticket image
+      get(ref(db, `penjualanAsam/${key}`)).then((snapshot) => {
+        const data = snapshot.val();
+        const promises = [];
+        
+        // Delete ticket image from storage if exists
+        if (data.ticketImage) {
+          const ticketImageRef = storageRef(storage, data.ticketImage);
+          promises.push(deleteObject(ticketImageRef));
+        }
+        
+        // Wait for image deletion to complete
+        return Promise.all(promises);
+      }).then(() => {
+        // Then delete the database record
+        return remove(ref(db, `penjualanAsam/${key}`));
+      }).then(() => {
+        Swal.fire('Berhasil', 'Data berhasil dihapus!', 'success');
+      }).catch(err => {
+        Swal.fire('Gagal', 'Gagal menghapus: ' + err.message, 'error');
+      });
     }
 
     function getRowData(row) {
-      const inputs = row.querySelectorAll('input, select');
-      return {
-        tanggal: inputs[0].value,
-        perusahaan: inputs[1].value,
-        noTruck: inputs[2].value,
-        loadingTime: inputs[3].value,
-        releaseTime: inputs[4].value,
-        tareWeight: parseFloat(inputs[5].value) || 0,
-        grossWeight: parseFloat(inputs[6].value) || 0
-      };
-    }
+  const inputs = row.querySelectorAll('input, select');
+  const data = {
+    tanggal: inputs[0].value,
+    perusahaan: inputs[1].value,
+    noTruck: inputs[2].value,
+    loadingTime: inputs[3].value,
+    releaseTime: inputs[4].value,
+    tareWeight: parseFloat(inputs[5].value) || 0,
+    grossWeight: parseFloat(inputs[6].value) || 0
+  };
+
+  // Pertahankan URL gambar yang sudah ada
+  const existingImageUrl = row.dataset.ticketImage;
+  if (existingImageUrl) {
+    data.ticketImage = existingImageUrl;
+  }
+
+  return data;
+}
     
     let allData = [];
 
@@ -672,7 +1025,8 @@ td select:focus {
         "Release", 
         "Tare (ton)", 
         "Gross (ton)", 
-        "Net (ton)"
+        "Net (ton)",
+        "Foto Tiket"
       ];
       data.push(headers);
       
@@ -685,9 +1039,13 @@ td select:focus {
           if (i === 0) {
             cellContent = row.cells[i].textContent || '';
           } 
-          else if (i === 8) {
+          else if (i === 8) { // Net Weight
             const netWeightSpan = row.cells[i].querySelector('.net-weight');
             cellContent = netWeightSpan ? netWeightSpan.textContent.replace(' ton', '') : '0';
+          }
+          else if (i === 9) { // Foto Tiket
+            const img = row.cells[i].querySelector('img');
+            cellContent = img && img.src ? "Ada Foto" : "Tidak Ada";
           }
           else {
             const input = row.cells[i].querySelector('input');
@@ -705,7 +1063,8 @@ td select:focus {
         '', '', '', '', '', '', 
         'Total Net Weight:', 
         '', 
-        totalNetWeight
+        totalNetWeight,
+        ''
       ];
       data.push(totalRow);
       
@@ -792,7 +1151,7 @@ td select:focus {
       
       if (initialLoad) {
         initialLoad = false;
-        applyFilter(); // Render pertama kali
+        applyFilter();
         return;
       }
       
@@ -863,6 +1222,7 @@ td select:focus {
             <th style="width: 50px">Tare Weight</th>
             <th style="width: 50px">Gross Weight</th>
             <th style="width: 50px">Net Weight</th>
+            <th style="width: 120px">Foto Tiket</th>
             <th style="width: 120px">Aksi</th>
           </tr>
         </thead>
@@ -871,6 +1231,7 @@ td select:focus {
       </table>
     </div>
     <button id="addRowBtnTrain1" style="margin-top: 10px;">Tambah Baris (Train 1)</button>
+    <button id="exportBtn" onclick="exportToExcel()">Export to Excel</button>
   </div>
   
   <!-- Train 2 Container -->
@@ -888,6 +1249,7 @@ td select:focus {
             <th style="width: 50px">Tare Weight</th>
             <th style="width: 50px">Gross Weight</th>
             <th style="width: 50px">Net Weight</th>
+            <th style="width: 120px">Foto Tiket</th>
             <th style="width: 120px">Aksi</th>
           </tr>
         </thead>
@@ -896,6 +1258,7 @@ td select:focus {
       </table>
     </div>
     <button id="addRowBtnTrain2" style="margin-top: 10px;">Tambah Baris (Train 2)</button>
+    <button id="exportBtn" onclick="exportToExcel()">Export to Excel</button>
   </div>
   
   <!-- QMB Container -->
@@ -913,6 +1276,7 @@ td select:focus {
             <th style="width: 50px">Tare Weight</th>
             <th style="width: 50px">Gross Weight</th>
             <th style="width: 50px">Net Weight</th>
+            <th style="width: 120px">Foto Tiket</th>
             <th style="width: 120px">Aksi</th>
           </tr>
         </thead>
@@ -924,5 +1288,21 @@ td select:focus {
       <button id="exportBtn" onclick="exportToExcel()">Export to Excel</button>
   </div>
 
+  <!-- Image Modal -->
+  <div id="imageModal" class="image-modal">
+    <span class="close-modal" onclick="closeImageModal()">&times;</span>
+    <img id="modalImage" class="modal-image">
+  </div>
+
+  <!-- Progress Modal -->
+  <div id="progressModal" class="progress-modal">
+    <div class="progress-content">
+      <h3>Mengupload Data</h3>
+      <div class="progress-bar">
+        <div id="progressFill" class="progress-fill"></div>
+      </div>
+      <div id="progressText" class="progress-text">Mengupload data... 0%</div>
+    </div>
+  </div>
 </body>
 </html>
