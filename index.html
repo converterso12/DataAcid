@@ -614,7 +614,7 @@
          <input type="file" accept="image/*" style="display:none">` :
         `<img id="${ticketPreviewId}" class="image-preview" style="display:none">
          <button class="image-upload-btn" onclick="this.nextElementSibling.click()">Upload Tiket</button>
-         <input type="file" accept="image/*" style="display:none">`}
+         <input type="file" accept="image/*" capture="environment" style="display:none">`}
     </td>
         <td>
           ${isNew ? 
@@ -952,15 +952,41 @@
 }
     
     let allData = [];
+    
+    function updatePerusahaanFilter() {
+  const perusahaanSelect = document.getElementById('filterPerusahaan');
+  const perusahaanSet = new Set();
+  
+  // Kosongkan dropdown kecuali option pertama
+  while (perusahaanSelect.options.length > 1) {
+    perusahaanSelect.remove(1);
+  }
+  
+  // Kumpulkan semua perusahaan unik dari data
+  allData.forEach(({ val }) => {
+    if (val.perusahaan) {
+      perusahaanSet.add(val.perusahaan);
+    }
+  });
+  
+  // Urutkan dan tambahkan ke dropdown
+  Array.from(perusahaanSet).sort().forEach(perusahaan => {
+    const option = document.createElement('option');
+    option.value = perusahaan;
+    option.textContent = perusahaan;
+    perusahaanSelect.appendChild(option);
+  });
+}
 
     function applyFilter() {
-      const perusahaan = document.getElementById('filterPerusahaan').value.toLowerCase();
-      const bulan = document.getElementById('filterBulan').value;
-      const startDate = document.getElementById('filterStart').value;
-      const endDate = document.getElementById('filterEnd').value;
+  const perusahaanSelect = document.getElementById('filterPerusahaan');
+  const perusahaan = perusahaanSelect.value; // Tidak perlu toLowerCase()
+  const bulan = document.getElementById('filterBulan').value;
+  const startDate = document.getElementById('filterStart').value;
+  const endDate = document.getElementById('filterEnd').value;
 
-      const filtered = allData.filter(({ val }) => {
-        const matchPerusahaan = !perusahaan || val.perusahaan.toLowerCase().includes(perusahaan);
+  const filtered = allData.filter(({ val }) => {
+    const matchPerusahaan = !perusahaan || val.perusahaan === perusahaan;
         const matchTrain = !currentTrain || val.train === currentTrain;
 
         const tanggal = val.tanggal || '';
@@ -973,10 +999,10 @@
         const matchEnd = !endDate || fullDate <= new Date(endDate);
 
         return matchPerusahaan && matchBulan && matchStart && matchEnd && matchTrain;
-      });
+  });
 
-      renderTable(filtered);
-    }
+  renderTable(filtered);
+}
 
     window.applyFilter = applyFilter;
 
@@ -1143,24 +1169,25 @@
     });
     
     onValue(salesRef, snapshot => {
-      allData = [];
-      
-      snapshot.forEach(child => {
-        allData.push({ val: child.val(), key: child.key });
-      });
-      
-      if (initialLoad) {
-        initialLoad = false;
-        applyFilter();
-        return;
-      }
-      
-      // Hanya render ulang jika tidak ada draft yang sedang diedit
-      const hasActiveDrafts = Object.values(localDrafts).some(draft => draft.status === 'editing');
-      if (!hasActiveDrafts) {
-        applyFilter();
-      }
-    });
+  allData = [];
+  
+  snapshot.forEach(child => {
+    allData.push({ val: child.val(), key: child.key });
+  });
+  
+  updatePerusahaanFilter(); // Tambahkan ini
+  
+  if (initialLoad) {
+    initialLoad = false;
+    applyFilter();
+    return;
+  }
+  
+  const hasActiveDrafts = Object.values(localDrafts).some(draft => draft.status === 'editing');
+  if (!hasActiveDrafts) {
+    applyFilter();
+  }
+});
   </script>
 </head>
 <body>
@@ -1177,7 +1204,10 @@
     <fieldset style="background-color: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
       <legend style="font-weight: bold; color: #1e3a8a;">Filter Data</legend>
       <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-        <input type="text" id="filterPerusahaan" placeholder="Perusahaan" style="flex: 1; padding: 8px;">
+        <select id="filterPerusahaan" style="flex: 1; padding: 8px;">
+  <option value="">Semua Perusahaan</option>
+  <!-- Options akan diisi oleh JavaScript -->
+</select>
         <select id="filterBulan" style="flex: 1; padding: 8px;">
           <option value="">Pilih Bulan</option>
           <option value="01">Januari</option>
@@ -1222,7 +1252,7 @@
             <th style="width: 50px">Tare Weight</th>
             <th style="width: 50px">Gross Weight</th>
             <th style="width: 50px">Net Weight</th>
-            <th style="width: 120px">Foto Nota</th>
+            <th style="width: 120px">Foto Tiket</th>
             <th style="width: 120px">Aksi</th>
           </tr>
         </thead>
@@ -1249,7 +1279,7 @@
             <th style="width: 50px">Tare Weight</th>
             <th style="width: 50px">Gross Weight</th>
             <th style="width: 50px">Net Weight</th>
-            <th style="width: 120px">Foto Nota</th>
+            <th style="width: 120px">Foto Tiket</th>
             <th style="width: 120px">Aksi</th>
           </tr>
         </thead>
@@ -1276,7 +1306,7 @@
             <th style="width: 50px">Tare Weight</th>
             <th style="width: 50px">Gross Weight</th>
             <th style="width: 50px">Net Weight</th>
-            <th style="width: 120px">Foto Nota</th>
+            <th style="width: 120px">Foto Tiket</th>
             <th style="width: 120px">Aksi</th>
           </tr>
         </thead>
